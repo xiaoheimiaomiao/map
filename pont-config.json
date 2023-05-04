@@ -1,0 +1,23 @@
+{
+  "usingMultipleOrigins": true,
+  "origins": [
+    {
+      "originType": "SwaggerV2",
+      "originUrl": "http://127.0.0.1:8080/api-lock.json",
+      "usingOperationId": false,
+      "name": "traffic"
+    }
+  ],
+  "outDir": "./src/api",
+  "templatePath": "./template",
+  "transformPath": "./transform",
+  "prettierConfig": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always"
+  }
+}

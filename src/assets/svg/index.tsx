@@ -1,0 +1,11 @@
+export { default as InIcon } from './in.svg';
+export { default as OutIcon } from './out.svg';
+export { default as HotelLine } from './hotel-line.svg';
+export { default as questionLine } from './question-line.svg';
+export { default as rePlay } from './rePlay.svg';
+export { default as play } from './play.svg';
+export { default as timeLIne } from './time-line.svg';
+export { default as x } from './x.svg';
+export { default as down } from './down.svg';
+export { default as up } from './up.svg';
+export { default as arrowIosLeft } from './arrow-ios-left.svg';

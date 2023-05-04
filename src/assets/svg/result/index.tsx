@@ -1,0 +1,10 @@
+export { default as quanshifanwei } from './quanshifanwei.svg';
+export { default as quyuchuxing } from './quyuchuxing.svg';
+export { default as quyudaowaibu } from './quyudaowaibu.svg';
+export { default as quyuwaibu } from './quyuwaibu.svg';
+export { default as waibudaoquyu } from './waibudaoquyu.svg';
+export { default as waibudaoquyunei } from './waibudaoquyunei.svg';
+export { default as after } from './after.svg';
+export { default as before } from './before.svg';
+export { default as chufa } from './chufa.svg';
+export { default as daoda } from './daoda.svg';
