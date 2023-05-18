@@ -9,7 +9,7 @@ const OptionSelectionArea = observer(() => {
   const { collectionsByArea } = app.leftModal;
   // console.log("allAreaByCityData: ", allAreaByCityData);
   const cityData = app.leftModal.cityData;
-  // console.log("cityData: ", cityData);
+  console.log("cityData: ", cityData);
   useEffect(() => {}, []);
   return (
     <div className="flex flex-col gap-y-2">

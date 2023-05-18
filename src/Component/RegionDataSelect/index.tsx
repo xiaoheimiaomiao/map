@@ -12,6 +12,7 @@ type Props = {
 };
 const RegionDataSelect: FC<Props> = ({ regionData }) => {
   const app = useContext(AppContext);
+
   const { run: getGetSecondLayer } = useRequest(
     Api.traffic.demo.getGetSecondLayer,
     {
@@ -23,11 +24,36 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
       },
     }
   );
-  const onChange = (checked: boolean, id?: number) => {
+
+  const {run:getAllMapUnitByLayer}=useRequest(
+    Api.traffic.demo.postGetAllMapUnitByLayer, 
+    {
+      manual:true,
+      onSuccess:(data)=>{
+        console.log('data: ', data);
+        runInAction(()=>{
+          app.RegionDataSelectModal.subwayPoints=data;
+        })
+      }
+    }
+  )
+
+  const onChange = (checked: boolean, item:{color: string,id:number,layerName: string,layerTypeFirst: number,
+    layerTypeSecond:null,
+    logo:string,
+    mapLayerStyleType:number,
+    note:string
+    }) => {
+    // 
     if (checked) {
-      getGetSecondLayer({ layerTypeFirst: id });
+      getGetSecondLayer({ layerTypeFirst: item.layerTypeFirst});
       // console.log("checked: ", checked);
       // console.log("event: ", event);
+      
+        getAllMapUnitByLayer({
+          layerId: item.id, areaId: app.leftModal.cityData.id, collection: "现状"
+        })
+       
     }
   };
   return (
@@ -37,6 +63,7 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
           <div
             className="flex items-center justify-between h-10 px-2 rounded-lg"
             style={{ width: "8.75rem", background: item.color }}
+           
           >
             <div className="flex items-center text-white">
               <div>
@@ -50,7 +77,7 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
               <Switch
                 key={item.id}
                 size="small"
-                onChange={(checked) => onChange(checked, item.layerTypeFirst)}
+                onChange={(checked) => onChange(checked,item)}
               ></Switch>
             </div>
           </div>
