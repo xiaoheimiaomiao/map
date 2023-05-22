@@ -1,3 +1,4 @@
+import { Layer } from "@/Component/MapContainer/LayerComponents";
 import { makeAutoObservable, observable } from "mobx";
 
 export class LeftDrawModal {
@@ -16,6 +17,8 @@ export class LeftDrawModal {
 
   // 方案选择按钮数据
   public collectionsByArea: defs.traffic.AreaDataCollectionVO[] = [];
+
+  public layers: Layer[] = [];
 
   constructor() {
     makeAutoObservable(this);

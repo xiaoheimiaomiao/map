@@ -7,6 +7,7 @@ import { Switch } from "antd";
 import { runInAction } from "mobx";
 import { FC, useContext } from "react";
 import { useRequest } from "umi";
+import { Layer, LayerType } from "../MapContainer/LayerComponents";
 type Props = {
   regionData: defs.traffic.TheLayerDisplayData[] | undefined;
 };
@@ -25,18 +26,18 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
     }
   );
 
-  const {run:getAllMapUnitByLayer}=useRequest(
-    Api.traffic.demo.postGetAllMapUnitByLayer, 
+  const { run: getAllMapUnitByLayer } = useRequest(
+    Api.traffic.demo.postGetAllMapUnitByLayer,
     {
-      manual:true,
-      onSuccess:(data)=>{
+      manual: true,
+      onSuccess: (data) => {
         // console.log('data: ', data);
         // runInAction(()=>{
         //   app.RegionDataSelectModal.subwayPoints=data;
         // })
-      }
+      },
     }
-  )
+  );
 
   // const AOiChange = (id: number, cheked: boolean) => {
   //   if (cheked) {
@@ -44,26 +45,39 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
   //   }
   // }
 
-  const onChange = async (checked: boolean, item:{color: string,id:number,layerName: string,layerTypeFirst: number,
-    layerTypeSecond:null,
-    logo:string,
-    mapLayerStyleType:number,
-    note:string
-    }) => {
-    // 
+  const onChange = async (
+    checked: boolean,
+    item: defs.traffic.TheLayerDisplayData
+  ) => {
     if (checked) {
-      getGetSecondLayer({ layerTypeFirst: item.layerTypeFirst});
-      // console.log("checked: ", checked);
-      // console.log("event: ", event);
-      
-      const result = await  getAllMapUnitByLayer({
-          layerId: item.id, areaId: app.leftModal.cityData.id, collection: "现状"
-        })
+      getGetSecondLayer({ layerTypeFirst: item.layerTypeFirst });
+      const result = await getAllMapUnitByLayer({
+        layerId: item.id,
+        areaId: app.leftModal.cityData.id,
+        collection: "现状",
+      });
 
-        
+      const data: Layer = {
+        type: LayerType.point,
+        data: {
+          type: "FeatureCollection",
+          features: result.map((item) => {
+            return {
+              type: "Feature",
+              properties: {},
+              geometry: JSON.parse(item.coordinates || "{}"),
+            };
+          }),
+        },
+      };
 
-        
-       
+      runInAction(() => {
+        app.leftModal.layers = [data];
+      });
+    } else {
+      runInAction(() => {
+        app.leftModal.layers = [];
+      });
     }
   };
   return (
@@ -73,7 +87,6 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
           <div
             className="flex items-center justify-between h-10 px-2 rounded-lg"
             style={{ width: "8.75rem", background: item.color }}
-           
           >
             <div className="flex items-center text-white">
               <div>
@@ -87,7 +100,7 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
               <Switch
                 key={item.id}
                 size="small"
-                onChange={(checked) => onChange(checked,item)}
+                onChange={(checked) => onChange(checked, item)}
               ></Switch>
             </div>
           </div>

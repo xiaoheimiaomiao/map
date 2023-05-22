@@ -1,52 +1,48 @@
-import { PointLayer, PointLayerProps, PolygonLayer, PolygonLayerProps } from '@antv/larkmap';
-import React, { useState } from 'react'
-import {FeatureCollection} from 'geojson'
+import {
+  PointLayer,
+  PointLayerProps,
+  PolygonLayer,
+  PolygonLayerProps,
+} from "@antv/larkmap";
+import { FeatureCollection } from "geojson";
+import { useState } from "react";
 
-enum LayerType{
-  point="point",
-  polygon="polygon"
+export enum LayerType {
+  point = "point",
+  polygon = "polygon",
 }
 
+export type Layer = {
+  type: LayerType;
+  data: FeatureCollection;
+};
 
-type Layer={
-  type:LayerType,
-  data:FeatureCollection;
-}
-
-
-
-
-
-const NewPointLayer=({data}:{data:FeatureCollection})=>{
-  const pointLayerOptions: Omit<PointLayerProps, 'source'> = {
+const NewPointLayer = ({ data }: { data: FeatureCollection }) => {
+  const pointLayerOptions: Omit<PointLayerProps, "source"> = {
     autoFit: true,
-    shape: 'circle',
-    size:8 ,
-    color: {
-      field: 'temperature',
-      value: ['#0f9960', '#33a02c', '#377eb8'],
-    },
+    shape: "01",
+    size: 8,
     state: {
-      active: true,
+      active: false,
     },
     style: {
       opacity: 0.8,
     },
   };
   const [pointSource, setPointSource] = useState({
-    data: {},
-    parser: {type: 'geojson'},
-   });
-  return  <PointLayer {...pointLayerOptions} source={pointSource} />
-}
+    data,
+    parser: { type: "geojson" },
+  });
+  return <PointLayer {...pointLayerOptions} source={pointSource} />;
+};
 
-const NewPolygonLayer=({data}:{data:FeatureCollection})=>{
-  const polygonLayerOptions: Omit<PolygonLayerProps, 'source'> = {
+const NewPolygonLayer = ({ data }: { data: FeatureCollection }) => {
+  const polygonLayerOptions: Omit<PolygonLayerProps, "source"> = {
     autoFit: true,
-    shape: 'fill',
+    shape: "fill",
     color: {
-      field: 'adcode',
-      value: ['#0f9960', '#33a02c', '#477eb8'],
+      field: "adcode",
+      value: ["#0f9960", "#33a02c", "#477eb8"],
     },
     state: {
       active: true,
@@ -57,32 +53,33 @@ const NewPolygonLayer=({data}:{data:FeatureCollection})=>{
   };
   const [polygonSource, setPolygonSource] = useState({
     data: {},
-    parser: { type: 'geojson' },
-  });  
-  return <PolygonLayer {...polygonLayerOptions} source={polygonSource}></PolygonLayer>
-}
-
-export const LayerComponents=({layers}:{layers: Layer[]}) =>{
-  
-  const createLayerComponents=(layerType:LayerType)=>{
-    switch (layerType) {
-      case LayerType.point :
-        return NewPointLayer
-      case LayerType.polygon:
-      return NewPolygonLayer
-    }
-  }
+    parser: { type: "geojson" },
+  });
   return (
-   <>
-   {
-    layers.map(layer => {
-      const Com = createLayerComponents(layer.type)
+    <PolygonLayer
+      {...polygonLayerOptions}
+      source={polygonSource}
+    ></PolygonLayer>
+  );
+};
 
-      return <Com data={layer.data}></Com>
-    })
-   }
-   
-   </> 
-  )
-}
- 
+export const LayerComponents = ({ layers }: { layers: Layer[] }) => {
+  console.log("layers: ", layers);
+  const createLayerComponents = (layerType: LayerType) => {
+    switch (layerType) {
+      case LayerType.point:
+        return NewPointLayer;
+      case LayerType.polygon:
+        return NewPolygonLayer;
+    }
+  };
+  return (
+    <>
+      {layers.map((layer) => {
+        const Com = createLayerComponents(layer.type);
+
+        return <Com data={layer.data}></Com>;
+      })}
+    </>
+  );
+};
