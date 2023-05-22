@@ -30,15 +30,21 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
     {
       manual:true,
       onSuccess:(data)=>{
-        console.log('data: ', data);
-        runInAction(()=>{
-          app.RegionDataSelectModal.subwayPoints=data;
-        })
+        // console.log('data: ', data);
+        // runInAction(()=>{
+        //   app.RegionDataSelectModal.subwayPoints=data;
+        // })
       }
     }
   )
 
-  const onChange = (checked: boolean, item:{color: string,id:number,layerName: string,layerTypeFirst: number,
+  // const AOiChange = (id: number, cheked: boolean) => {
+  //   if (cheked) {
+
+  //   }
+  // }
+
+  const onChange = async (checked: boolean, item:{color: string,id:number,layerName: string,layerTypeFirst: number,
     layerTypeSecond:null,
     logo:string,
     mapLayerStyleType:number,
@@ -50,9 +56,13 @@ const RegionDataSelect: FC<Props> = ({ regionData }) => {
       // console.log("checked: ", checked);
       // console.log("event: ", event);
       
-        getAllMapUnitByLayer({
+      const result = await  getAllMapUnitByLayer({
           layerId: item.id, areaId: app.leftModal.cityData.id, collection: "现状"
         })
+
+        
+
+        
        
     }
   };

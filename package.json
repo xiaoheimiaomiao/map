@@ -24,6 +24,7 @@
     "umi": "^4.0.61"
   },
   "devDependencies": {
+    "@types/geojson": "^7946.0.10",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/plugins": "^4.0.61",

@@ -9,7 +9,7 @@ const layerOptions: Omit<PointLayerProps, 'source'> = {
     shape: '01',
     size:8,
     state: {
-      active: true,
+      active: false ,
     },
     style: {
       opacity: 0.8,
